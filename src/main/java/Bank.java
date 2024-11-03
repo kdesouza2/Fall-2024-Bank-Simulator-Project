@@ -21,4 +21,12 @@ public class Bank {
 		return accountsInBank.get(accountId);
 	}
 
+	public boolean accountExistsByAccountID(Accounts newAccount) {
+		if (retrieve(newAccount.getId()) != null) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+
 }
