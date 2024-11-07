@@ -1,2 +1,2 @@
-public class CreateCommandTest {
+public class CreateCommandTest extends CommandValidatorTest {
 }

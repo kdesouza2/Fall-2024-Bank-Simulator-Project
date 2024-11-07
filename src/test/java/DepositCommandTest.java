@@ -1,2 +1,2 @@
-public class DepositCommandTest {
+public class DepositCommandTest extends CommandValidatorTest {
 }
