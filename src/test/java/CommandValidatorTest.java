@@ -22,26 +22,26 @@ public class CommandValidatorTest {
 
 	@Test
 	void valid_create_checking_command() {
-		boolean actual = commandValidator.validCreateChecking("create checking 12345678 0.01");
+		boolean actual = commandValidator.validateCreate("create checking 12345678 0.01");
 		assertTrue(actual);
 	}
 
 	@Test
 	void valid_create_savings_command() {
-		boolean actual = commandValidator.validCreateSavings("create savings 12345678 0.01");
+		boolean actual = commandValidator.validateCreate("create savings 12345678 0.01");
 		assertTrue(actual);
 	}
 
 	@Test
 	void valid_create_cd_command() {
-		boolean actual = commandValidator.validCreateCD("create cd 12345678 0.01 1001");
+		boolean actual = commandValidator.validateCreate("create cd 12345678 0.01 1001");
 		assertTrue(actual);
 	}
 
 	@Test
 	void valid_deposit_into_checking_command() {
 		newBank.addAccount(testChecking);
-		boolean actual = commandValidator.validDepositIntoChecking("deposit 12345678 500");
+		boolean actual = commandValidator.validate("deposit 12345678 500");
 		assertTrue(actual);
 	}
 
@@ -62,7 +62,7 @@ public class CommandValidatorTest {
 	@Test
 	void duplicate_account_id_is_invalid() {
 		newBank.addAccount(testChecking);
-		boolean actual = commandValidator.validAccountIDForCreate(testChecking);
+		boolean actual = commandValidator.validAccountI(testChecking);
 		assertFalse(actual);
 	}
 

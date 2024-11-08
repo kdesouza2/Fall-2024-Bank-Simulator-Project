@@ -6,15 +6,7 @@ public class CreateValidator extends CommandValidator {
 		this.command = command;
 	}
 
-	public boolean validAccountIDForCreate(Accounts testAccount) {
-		if (bank.accountExistsByAccountID(testAccount)) {
-			return false;
-		} else {
-			return true;
-		}
-	}
-
-	public boolean validCreateChecking(String command) {
+	public static boolean validateCreateChecking(String command) {
 		String[] parts = command.split(" ");
 		String commandType = parts[0];
 		String accountType = parts[1];
@@ -34,7 +26,7 @@ public class CreateValidator extends CommandValidator {
 		return false;
 	}
 
-	public boolean validCreateSavings(String command) {
+	public static boolean validateCreateSavings(String command) {
 		String[] parts = command.split(" ");
 		String commandType = parts[0];
 		String accountType = parts[1];
@@ -54,7 +46,7 @@ public class CreateValidator extends CommandValidator {
 		return false;
 	}
 
-	public boolean validCreateCD(String command) {
+	public static boolean validateCreateCD(String command) {
 		String[] parts = command.split(" ");
 		String commandType = parts[0];
 		String accountType = parts[1];
