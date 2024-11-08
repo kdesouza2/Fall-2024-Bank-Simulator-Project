@@ -1,5 +1,5 @@
 public class CommandValidator {
-	private Bank bank;
+	Bank bank;
 
 	public CommandValidator(Bank newBank) {
 		this.bank = newBank;
@@ -43,14 +43,19 @@ public class CommandValidator {
 		} else {
 			String accountType = parts[1].toLowerCase();
 
-			if (accountType.equals("checking")) {
-				return CreateValidator.validateCreateChecking(command);
-			} else if (accountType.equals("savings")) {
-				return CreateValidator.validateCreateSavings(command);
+			CreateValidator newCreateValidator = new CreateValidator(bank, command);
+			if ((accountType.equals("checking")) || (accountType.equals("savings"))) {
+				if (parts.length == 4) {
+					return newCreateValidator.validateCreateCheckingOrSavings(parts[2], parts[3]);
+				}
 			} else if (accountType.equals("cd")) {
-				return CreateValidator.validateCreateCD(command);
+				if (parts.length == 5) {
+					return newCreateValidator.validateCreateCD(parts[2], parts[3], parts[4]);
+				}
 			}
 		}
+
+		return false;
 	}
 
 }
