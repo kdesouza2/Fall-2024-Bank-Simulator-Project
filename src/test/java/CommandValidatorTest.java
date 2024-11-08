@@ -20,6 +20,9 @@ public class CommandValidatorTest {
 		testCD = new CD(12345678, 0.06, 1000);
 	}
 
+	///////////////////////////////////////////////////////////////////
+	///////////////////// CREATE TESTS ////////////////////////////////
+	///////////////////////////////////////////////////////////////////
 	@Test
 	void valid_create_checking_command() {
 		boolean actual = commandValidator.validateCreate("create checking 12345678 0.01");
@@ -58,6 +61,12 @@ public class CommandValidatorTest {
 	}
 
 	@Test
+	void create_cd_without_balance_is_invalid() {
+		boolean actual = commandValidator.validateCreate("create cd 12345678 0.06");
+		assertFalse(actual);
+	}
+
+	@Test
 	void create_account_with_id_more_than_8_digits_is_invalid() {
 		boolean actual = commandValidator.validateCreate("create savings 123456789 0.06");
 		assertFalse(actual);
@@ -66,6 +75,12 @@ public class CommandValidatorTest {
 	@Test
 	void create_cd_account_with_negative_balance_is_invalid() {
 		boolean actual = commandValidator.validateCreate("create cd 12345678 0.06 -10");
+		assertFalse(actual);
+	}
+
+	@Test
+	void create_without_command_is_invalid() {
+		boolean actual = commandValidator.validateCreate("cd 12345678 0.08");
 		assertFalse(actual);
 	}
 
@@ -94,20 +109,44 @@ public class CommandValidatorTest {
 	}
 
 	@Test
+	void create_checking_without_id_is_invalid() {
+		boolean actual = commandValidator.validateCreate("create checking 0.09");
+		assertFalse(actual);
+	}
+
+	@Test
+	void create_savings_without_id_is_invalid() {
+		boolean actual = commandValidator.validateCreate("create savings 0.09");
+		assertFalse(actual);
+	}
+
+	@Test
+	void create_cd_without_id_is_invalid() {
+		boolean actual = commandValidator.validateCreate("create cd 0.09");
+		assertFalse(actual);
+	}
+
+	@Test
+	void create_checking_without_apr_is_invalid() {
+		boolean actual = commandValidator.validateCreate("create checking 12345678");
+		assertFalse(actual);
+	}
+
+	@Test
+	void create_savings_without_apr_is_invalid() {
+		boolean actual = commandValidator.validateCreate("create savings 12345678");
+		assertFalse(actual);
+	}
+
+	@Test
+	void create_cd_without_apr_is_invalid() {
+		boolean actual = commandValidator.validateCreate("create cd 12345678");
+		assertFalse(actual);
+	}
+
+	@Test
 	void create_command_with_invalid_account_type_is_invalid() {
 		boolean actual = commandValidator.validateCreate("create box 12345678 0.06");
-		assertFalse(actual);
-	}
-
-	@Test
-	void invalid_command_type_is_invalid() {
-		boolean actual = commandValidator.validCommandType("make checking 12345678 0.06");
-		assertFalse(actual);
-	}
-
-	@Test
-	void empty_command_is_invalid() {
-		boolean actual = commandValidator.validateCreate(" ");
 		assertFalse(actual);
 	}
 
@@ -117,6 +156,33 @@ public class CommandValidatorTest {
 		assertFalse(actual);
 	}
 
+	@Test
+	void create_with_0_apr_is_valid() {
+		boolean actual = commandValidator.validateCreate("create checking 12345678 0");
+		assertTrue(actual);
+	}
+
+	@Test
+	void create_with_10_apr_is_valid() {
+		boolean actual = commandValidator.validateCreate("create checking 12345678 10");
+		assertTrue(actual);
+	}
+
+	@Test
+	void create_cd_with_1000_balance_is_valid() {
+		boolean actual = commandValidator.validateCreate("create cd 12345678 0.09 1000");
+		assertTrue(actual);
+	}
+
+	@Test
+	void create_cd_with_10000_balance_is_valid() {
+		boolean actual = commandValidator.validateCreate("create cd 12345678 0.09 10000");
+		assertTrue(actual);
+	}
+
+	///////////////////////////////////////////////////////////////////
+	///////////////////// DEPOSIT TESTS ///////////////////////////////
+	///////////////////////////////////////////////////////////////////
 	@Test
 	void valid_deposit_into_checking_command() {
 		newBank.addAccount(testChecking);
@@ -146,6 +212,12 @@ public class CommandValidatorTest {
 	}
 
 	@Test
+	void deposit_without_command_is_invalid() {
+		boolean actual = commandValidator.validateDeposit("12345678 0.09");
+		assertFalse(actual);
+	}
+
+	@Test
 	void deposit_negative_number_into_savings_is_invalid() {
 		newBank.addAccount(testSavings);
 		boolean actual = commandValidator.validateDeposit("deposit 12345678 -1000");
@@ -169,6 +241,40 @@ public class CommandValidatorTest {
 	@Test
 	void deposit_with_non_int_id_is_invalid() {
 		boolean actual = commandValidator.validateCreate("deposit keyra 300");
+		assertFalse(actual);
+	}
+
+	@Test
+	void deposit_without_id_is_invalid() {
+		boolean actual = commandValidator.validateDeposit("deposit 345");
+		assertFalse(actual);
+	}
+
+	@Test
+	void deposit_without_amount_is_invalid() {
+		boolean actual = commandValidator.validateDeposit("deposit 12345678");
+		assertFalse(actual);
+	}
+
+	@Test
+	void deposit_into_nonexistent_account_is_invalid() {
+		newBank.addAccount(testChecking);
+		boolean actual = commandValidator.validateDeposit("deposit 23456789 450");
+		assertFalse(actual);
+	}
+
+	///////////////////////////////////////////////////////////////////
+	///////////////////// GENERAL TESTS ///////////////////////////////
+	///////////////////////////////////////////////////////////////////
+	@Test
+	void invalid_command_type_is_invalid() {
+		boolean actual = commandValidator.validCommandType("make checking 12345678 0.06");
+		assertFalse(actual);
+	}
+
+	@Test
+	void empty_command_is_invalid() {
+		boolean actual = commandValidator.validateCreate(" ");
 		assertFalse(actual);
 	}
 }
