@@ -46,6 +46,48 @@ public class CommandValidatorTest {
 	}
 
 	@Test
+	void create_account_with_negative_apr_is_invalid() {
+		boolean actual = commandValidator.validateCreate("create checking 12345678 -0.9");
+		assertFalse(actual);
+	}
+
+	@Test
+	void create_account_with_more_than_10_apr_is_invalid() {
+		boolean actual = commandValidator.validateCreate("create checking 12345678 90");
+		assertFalse(actual);
+	}
+
+	@Test
+	void create_account_with_id_more_than_8_digits_is_invalid() {
+		boolean actual = commandValidator.validateCreate("create savings 123456789 0.06");
+		assertFalse(actual);
+	}
+
+	@Test
+	void create_cd_account_with_negative_balance_is_invalid() {
+		boolean actual = commandValidator.validateCreate("create cd 12345678 0.06 -10");
+		assertFalse(actual);
+	}
+
+	@Test
+	void create_cd_account_with_balance_more_than_10000_is_invalid() {
+		boolean actual = commandValidator.validateCreate("create cd 12345678 0.09 20000");
+		assertFalse(actual);
+	}
+
+	@Test
+	void create_checking_with_specified_balance_is_invalid() {
+		boolean actual = commandValidator.validateCreate("create checking 12345678 0.06 1000");
+		assertFalse(actual);
+	}
+
+	@Test
+	void create_savings_with_specified_balance_is_invalid() {
+		boolean actual = commandValidator.validateCreate("create savings 12345678 0.06 1000");
+		assertFalse(actual);
+	}
+
+	@Test
 	void create_command_without_account_type_is_invalid() {
 		boolean actual = commandValidator.validateCreate("create 12345678 0.06");
 		assertFalse(actual);
