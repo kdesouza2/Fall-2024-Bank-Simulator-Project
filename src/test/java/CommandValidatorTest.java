@@ -69,22 +69,64 @@ public class CommandValidatorTest {
 		assertFalse(actual);
 	}
 
-//	 @Test void valid_deposit_into_checking_command() {
-//		 newBank.addAccount(testChecking); boolean actual =
-//		 commandValidator.validate("deposit 12345678 500"); assertTrue(actual);
-//	}
-//
-//	 @Test void valid_deposit_into_savings_command() {
-//		 newBank.addAccount(testSavings); boolean actual =
-//		 commandValidator.validDepositIntoSavings("deposit 12345678 500");
-//		 assertTrue(actual);
-//	}
-//
-//	 @Test void deposit_into_cd_is_invalid() {
-//		newBank.addAccount(testCD); boolean
-//		 actual = commandValidator.validAccountTypeForDeposit("deposit 12345678 500");
-//		 assertFalse(actual);
-//	}
-//
+	@Test
+	void create_with_non_int_id_is_invalid() {
+		boolean actual = commandValidator.validateCreate("create checking keyra 0.06");
+		assertFalse(actual);
+	}
 
+	@Test
+	void valid_deposit_into_checking_command() {
+		newBank.addAccount(testChecking);
+		boolean actual = commandValidator.validateDeposit("deposit 12345678 500");
+		assertTrue(actual);
+	}
+
+	@Test
+	void valid_deposit_into_savings_command() {
+		newBank.addAccount(testSavings);
+		boolean actual = commandValidator.validateDeposit("deposit 12345678 1500");
+		assertTrue(actual);
+	}
+
+	@Test
+	void deposit_into_cd_is_invalid() {
+		newBank.addAccount(testCD);
+		boolean actual = commandValidator.validateDeposit("deposit 12345678 500");
+		assertFalse(actual);
+	}
+
+	@Test
+	void deposit_more_than_2500_into_savings_is_invalid() {
+		newBank.addAccount(testSavings);
+		boolean actual = commandValidator.validateDeposit("deposit 12345678 3000");
+		assertFalse(actual);
+	}
+
+	@Test
+	void deposit_negative_number_into_savings_is_invalid() {
+		newBank.addAccount(testSavings);
+		boolean actual = commandValidator.validateDeposit("deposit 12345678 -1000");
+		assertFalse(actual);
+	}
+
+	@Test
+	void deposit_negative_number_into_checking_is_invalid() {
+		newBank.addAccount(testChecking);
+		boolean actual = commandValidator.validateDeposit("deposit 12345678 -1000");
+		assertFalse(actual);
+	}
+
+	@Test
+	void deposit_more_than_1000_into_checking_is_invalid() {
+		newBank.addAccount(testChecking);
+		boolean actual = commandValidator.validateDeposit("deposit 12345678 2000");
+		assertFalse(actual);
+	}
+
+	@Test
+	void deposit_with_non_int_id_is_invalid() {
+		boolean actual = commandValidator.validateCreate("deposit keyra 300");
+		assertFalse(actual);
+	}
 }

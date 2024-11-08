@@ -1,54 +1,40 @@
+
 public class DepositValidator extends CommandValidator {
-	public DepositValidator(Bank newBank) {
-		super(newBank);
+	String command;
+
+	public DepositValidator(Bank bank, String command) {
+		super(bank);
+		this.command = command;
 	}
 
-	public boolean validDepositIntoChecking(String command) {
-		String[] parts = command.split(" ");
-		String commandType = parts[0];
-		int id = Integer.parseInt(parts[1]);
+	public boolean validateDepositIntoAccount(String command) {
+		String[] parts = super.parseCommand(command);
 		double amount = Double.parseDouble(parts[2]);
+		int idInt = 0;
 
-		if (commandType.equalsIgnoreCase("deposit")) {
-			if (bank.retrieve(id).getAccountType().equals("Checking")) {
+		try {
+			idInt = Integer.parseInt(parts[1]);
+		} catch (NumberFormatException e) { // if id contains non integers --> id = "keyra"
+			return false;
+		}
+
+		if (bank.accountExistsByAccountID(idInt)) {
+			Accounts newAccount = bank.retrieve(idInt);
+
+			if (newAccount.getAccountType().equals("Checking")) {
 				if (amount >= 0 && amount <= 1000) {
 					return true;
 				}
-			}
-		}
-
-		return false;
-	}
-
-	public boolean validDepositIntoSavings(String command) {
-		String[] parts = command.split(" ");
-		String commandType = parts[0];
-		int id = Integer.parseInt(parts[1]);
-		double amount = Double.parseDouble(parts[2]);
-
-		if (commandType.equalsIgnoreCase("deposit")) {
-			if (bank.retrieve(id).getAccountType().equals("Savings")) {
+			} else if (newAccount.getAccountType().equals("Savings")) {
 				if (amount >= 0 && amount <= 2500) {
 					return true;
 				}
-			}
-		}
-
-		return false;
-	}
-
-	public boolean validAccountTypeForDeposit(String command) {
-		String[] parts = command.split(" ");
-		String commandType = parts[0];
-		int id = Integer.parseInt(parts[1]);
-		double amount = Double.parseDouble(parts[2]);
-
-		if (commandType.equalsIgnoreCase("deposit")) {
-			if (bank.retrieve(id).getAccountType().equals("CD")) {
+			} else if (newAccount.getAccountType().equals("CD")) {
 				return false;
 			}
 		}
 
-		return true;
+		return false;
 	}
+
 }

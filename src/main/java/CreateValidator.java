@@ -16,7 +16,7 @@ public class CreateValidator extends CommandValidator {
 		}
 
 		double aprValueDouble = Double.parseDouble(aprValue);
-		if (bank.retrieve(idInt) == null) {
+		if (!bank.accountExistsByAccountID(idInt)) {
 			if (id.length() == 8) {
 				if (aprValueDouble >= 0 && aprValueDouble <= 10) {
 					return true;
@@ -38,7 +38,7 @@ public class CreateValidator extends CommandValidator {
 			return false;
 		}
 
-		if (bank.retrieve(idInt) == null) {
+		if (!bank.accountExistsByAccountID(idInt)) {
 			if (id.length() == 8) {
 				if (aprValueDouble >= 0 && aprValueDouble <= 10) {
 					if (balanceDouble >= 1000 && balanceDouble <= 10000) {

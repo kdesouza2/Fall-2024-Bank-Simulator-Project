@@ -9,9 +9,7 @@ public class CommandValidator {
 		return command.split(" ");
 	}
 
-	public boolean emptyCommand(String command) {
-		String[] parts = parseCommand(command);
-
+	public boolean emptyCommand(String[] parts) {
 		return parts.length == 0;
 	}
 
@@ -27,18 +25,10 @@ public class CommandValidator {
 		return (commandType.equals("create")) || (commandType.equals("deposit"));
 	}
 
-	public boolean validAccountID(Accounts testAccount) {
-		if (bank.accountExistsByAccountID(testAccount)) {
-			return false;
-		} else {
-			return true;
-		}
-	}
-
 	public boolean validateCreate(String command) {
 		String[] parts = parseCommand(command);
 
-		if ((emptyCommand(command)) || !(validAccountType(parts[1])) || !(validCommandType(parts[0]))) {
+		if ((emptyCommand(parts)) || !(validAccountType(parts[1])) || !(validCommandType(parts[0]))) {
 			return false;
 		} else {
 			String accountType = parts[1].toLowerCase();
@@ -52,6 +42,23 @@ public class CommandValidator {
 				if (parts.length == 5) {
 					return newCreateValidator.validateCreateCD(parts[2], parts[3], parts[4]);
 				}
+			}
+		}
+
+		return false;
+	}
+
+	public boolean validateDeposit(String command) {
+		String[] parts = parseCommand(command);
+
+		if ((emptyCommand(parts)) || !(validCommandType(parts[0]))) {
+			return false;
+
+		} else {
+			DepositValidator newDepositValidator = new DepositValidator(bank, command);
+			if (parts.length == 3) {
+				return newDepositValidator.validateDepositIntoAccount(command);
+
 			}
 		}
 
