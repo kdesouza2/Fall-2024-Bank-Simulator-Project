@@ -10,4 +10,5 @@ public class CommandProcessorTest {
 		newBank = new Bank();
 		commandProcessor = new CommandProcessor(newBank);
 	}
+
 }
