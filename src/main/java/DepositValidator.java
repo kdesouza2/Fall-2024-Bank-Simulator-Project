@@ -1,8 +1,10 @@
 
 public class DepositValidator extends CommandValidator {
+	private String command;
 
 	public DepositValidator(Bank bank, String command) {
-		super(bank, command);
+		super(bank);
+		this.command = command;
 	}
 
 	public boolean validateDepositIntoAccount(String command) {

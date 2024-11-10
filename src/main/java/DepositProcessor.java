@@ -1,6 +1,9 @@
 public class DepositProcessor extends CommandProcessor {
+	private String command;
+
 	public DepositProcessor(Bank bank, String command) {
-		super(bank, command);
+		super(bank);
+		this.command = command;
 	}
 
 	public void depositIntoAccount(String[] parts) {

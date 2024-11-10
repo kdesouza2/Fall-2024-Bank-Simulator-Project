@@ -1,10 +1,8 @@
 public class CommandProcessor {
-	Bank bank;
-	String command;
+	protected Bank bank;
 
-	public CommandProcessor(Bank bank, String command) {
+	public CommandProcessor(Bank bank) {
 		this.bank = bank;
-		this.command = command;
 	}
 
 	public String[] parseCommand(String command) {

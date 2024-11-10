@@ -1,7 +1,9 @@
 public class CreateValidator extends CommandValidator {
+	private String command;
 
 	public CreateValidator(Bank bank, String command) {
-		super(bank, command);
+		super(bank);
+		this.command = command;
 	}
 
 	public boolean validateCreateCheckingOrSavings(String id, String aprValue) {

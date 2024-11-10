@@ -5,20 +5,17 @@ import org.junit.jupiter.api.Test;
 
 public class CommandProcessorTest {
 
-	CommandProcessor commandProcessor;
-	Bank newBank;
-	String command;
-	Checking testChecking;
-	Savings testSavings;
-	CD testCD;
+	private CommandProcessor commandProcessor;
+	private Bank newBank;
+	private Checking testChecking;
+	private Savings testSavings;
 
 	@BeforeEach
 	void setUp() {
 		newBank = new Bank();
-		commandProcessor = new CommandProcessor(newBank, command);
+		commandProcessor = new CommandProcessor(newBank);
 		testChecking = new Checking(12345678, 0.06);
 		testSavings = new Savings(12345678, 0.06);
-		testCD = new CD(12345678, 0.06, 1000);
 	}
 
 	@Test
@@ -67,6 +64,21 @@ public class CommandProcessorTest {
 	@Test
 	void deposit_twice_into_checking_account() {
 		newBank.addAccount(testChecking);
+		commandProcessor.processCommand("deposit 12345678 100");
+		commandProcessor.processCommand("deposit 12345678 100");
+		assertEquals(newBank.retrieve(12345678).getBalance(), 200);
+	}
+
+	@Test
+	void deposit_into_savings_account() {
+		newBank.addAccount(testSavings);
+		commandProcessor.processCommand("deposit 12345678 100");
+		assertEquals(newBank.retrieve(12345678).getBalance(), 100);
+	}
+
+	@Test
+	void deposit_twice_into_savings_account() {
+		newBank.addAccount(testSavings);
 		commandProcessor.processCommand("deposit 12345678 100");
 		commandProcessor.processCommand("deposit 12345678 100");
 		assertEquals(newBank.retrieve(12345678).getBalance(), 200);

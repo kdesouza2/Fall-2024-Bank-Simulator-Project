@@ -5,17 +5,16 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 public class CommandValidatorTest {
-	CommandValidator commandValidator;
-	Bank newBank;
-	String command;
-	Checking testChecking;
-	Savings testSavings;
-	CD testCD;
+	private CommandValidator commandValidator;
+	private Bank newBank;
+	private Checking testChecking;
+	private Savings testSavings;
+	private CD testCD;
 
 	@BeforeEach
 	void setUp() {
 		newBank = new Bank();
-		commandValidator = new CommandValidator(newBank, command);
+		commandValidator = new CommandValidator(newBank);
 		testChecking = new Checking(12345678, 0.06);
 		testSavings = new Savings(12345678, 0.06);
 		testCD = new CD(12345678, 0.06, 1000);

@@ -1,7 +1,9 @@
 public class CreateProcessor extends CommandProcessor {
+	private String command;
 
 	public CreateProcessor(Bank bank, String command) {
-		super(bank, command);
+		super(bank);
+		this.command = command;
 	}
 
 	public void createAccount(String[] parts) {
