@@ -1,8 +1,10 @@
 public class CommandValidator {
 	Bank bank;
+	String command;
 
-	public CommandValidator(Bank newBank) {
+	public CommandValidator(Bank newBank, String command) {
 		this.bank = newBank;
+		this.command = command;
 	}
 
 	public String[] parseCommand(String command) {

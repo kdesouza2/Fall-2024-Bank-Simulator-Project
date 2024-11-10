@@ -1,21 +1,17 @@
 public class CreateProcessor extends CommandProcessor {
-	String command;
 
 	public CreateProcessor(Bank bank, String command) {
-		super(bank);
-		this.command = command;
+		super(bank, command);
 	}
 
 	public void createAccount(String[] parts) {
 		String accountType = parts[1].toLowerCase();
 		int id = Integer.parseInt(parts[2]);
 		double aprValue = Double.parseDouble(parts[3]);
-		double balance;
+		double balance = 0;
 
-		try {
+		if (accountType.equals("cd")) {
 			balance = Double.parseDouble(parts[4]);
-		} catch (NumberFormatException e) {
-			balance = 0;
 		}
 
 		if (accountType.equals("checking")) {

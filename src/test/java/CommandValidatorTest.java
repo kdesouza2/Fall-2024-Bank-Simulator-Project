@@ -7,6 +7,7 @@ import org.junit.jupiter.api.Test;
 public class CommandValidatorTest {
 	CommandValidator commandValidator;
 	Bank newBank;
+	String command;
 	Checking testChecking;
 	Savings testSavings;
 	CD testCD;
@@ -14,7 +15,7 @@ public class CommandValidatorTest {
 	@BeforeEach
 	void setUp() {
 		newBank = new Bank();
-		commandValidator = new CommandValidator(newBank);
+		commandValidator = new CommandValidator(newBank, command);
 		testChecking = new Checking(12345678, 0.06);
 		testSavings = new Savings(12345678, 0.06);
 		testCD = new CD(12345678, 0.06, 1000);

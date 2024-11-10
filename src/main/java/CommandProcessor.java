@@ -1,8 +1,10 @@
 public class CommandProcessor {
 	Bank bank;
+	String command;
 
-	public CommandProcessor(Bank bank) {
+	public CommandProcessor(Bank bank, String command) {
 		this.bank = bank;
+		this.command = command;
 	}
 
 	public String[] parseCommand(String command) {
@@ -16,6 +18,9 @@ public class CommandProcessor {
 		if (commandType.equals("create")) {
 			CreateProcessor createProcessor = new CreateProcessor(bank, command);
 			createProcessor.createAccount(parts);
+		} else if (commandType.equals("deposit")) {
+			DepositProcessor depositProcessor = new DepositProcessor(bank, command);
+			depositProcessor.depositIntoAccount(parts);
 		}
 	}
 }
