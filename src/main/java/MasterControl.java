@@ -13,7 +13,14 @@ public class MasterControl {
 	}
 
 	public List<String> start(List<String> input) {
-		commandStorage.addInvalidCommand(input.get(0));
+		for (String command : input) {
+			if (commandValidator.validateCommand(command)) {
+				commandProcessor.processCommand(command);
+			} else {
+				commandStorage.addInvalidCommand(command);
+			}
+		}
+
 		return commandStorage.getInvalidCommands();
 	}
 }
