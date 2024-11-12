@@ -1,3 +1,5 @@
+package banking;
+
 public class Accounts {
 	private final int id;
 	private final double aprValue;
