@@ -1,5 +1,3 @@
-package banking;
-
 public class CD extends Accounts {
 
 	public CD(int id, double aprValue, double balance) {

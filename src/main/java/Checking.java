@@ -1,5 +1,3 @@
-package banking;
-
 public class Checking extends Accounts {
 
 	public Checking(int id, double aprValue) {
