@@ -1,3 +1,4 @@
+package banking;
 
 public class DepositValidator extends CommandValidator {
 	private String command;
