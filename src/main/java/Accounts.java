@@ -1,15 +1,24 @@
-public abstract class Accounts {
+public class Accounts {
 	private final int id;
 	private final double aprValue;
 	double balance;
+	String accountType;
 
 	public Accounts(int id, double aprValue) {
 		this.id = id;
 		this.aprValue = aprValue;
 	}
 
+	public int getId() {
+		return id;
+	}
+
 	public double getBalance() {
 		return balance;
+	}
+
+	public String getAccountType() {
+		return accountType;
 	}
 
 	public double getAprValue() {
@@ -24,10 +33,6 @@ public abstract class Accounts {
 		if (balance >= amount) {
 			balance -= amount;
 		}
-	}
-
-	public int getId() {
-		return id;
 	}
 
 }
