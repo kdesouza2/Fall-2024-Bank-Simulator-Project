@@ -1,6 +1,6 @@
 
 public class DepositValidator extends CommandValidator {
-	String command;
+	private String command;
 
 	public DepositValidator(Bank bank, String command) {
 		super(bank);

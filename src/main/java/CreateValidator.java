@@ -1,5 +1,5 @@
 public class CreateValidator extends CommandValidator {
-	String command;
+	private String command;
 
 	public CreateValidator(Bank bank, String command) {
 		super(bank);
