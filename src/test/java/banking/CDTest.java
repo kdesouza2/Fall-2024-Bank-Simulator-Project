@@ -51,6 +51,16 @@ public class CDTest extends AccountsTest {
 	public void withdraw_amount_from_account_with_insufficient_funds() {
 		testCD.withdraw(1020.00);
 		double actual = testCD.getBalance();
-		assertEquals(1000.00, actual);
+		assertEquals(0, actual);
+	}
+
+	@Test
+	public void new_cd_account_has_empty_transaction_history() {
+		assertEquals(testCD.getTransactionHistory().size(), 0);
+	}
+
+	@Test
+	public void new_cd_account_has_time_0() {
+		assertEquals(testCD.getTime(), 0);
 	}
 }

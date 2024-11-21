@@ -24,7 +24,8 @@ public class CommandValidator {
 	public boolean validCommandType(String commandType) {
 		commandType = commandType.toLowerCase();
 
-		return (commandType.equals("create")) || (commandType.equals("deposit"));
+		return (commandType.equals("create")) || (commandType.equals("deposit")) || (commandType.equals("pass"))
+				|| (commandType.equals("transfer")) || (commandType.equals("withdraw"));
 	}
 
 	public boolean validateCommand(String command) {
@@ -51,51 +52,24 @@ public class CommandValidator {
 				DepositValidator newDepositValidator = new DepositValidator(bank, command);
 				if (parts.length == 3) {
 					return newDepositValidator.validateDepositIntoAccount(command);
-
 				}
+			} else if (commandType.equals("withdrawal")) {
+				WithdrawalValidator newWithdrawalValidator = new WithdrawalValidator(bank, command);
+				if (parts.length == 3) {
+					return newWithdrawalValidator.validateWithdrawalFromAccount(command);
+				}
+			} else if (commandType.equals("pass")) {
+				PassTimeValidator newPassTimeValidator = new PassTimeValidator(bank, command);
+				if (parts.length == 2) {
+					return newPassTimeValidator.validatePassTime(command);
+				}
+			} else if (commandType.equals("withdraw")) {
+				return true;
+			} else if (commandType.equals("transfer")) {
+				return true;
 			}
 		}
 
 		return false;
 	}
-//	public boolean validateCreate(String command) {
-//		String[] parts = parseCommand(command);
-//
-//		if ((emptyCommand(parts)) || !(validAccountType(parts[1])) || !(validCommandType(parts[0]))) {
-//			return false;
-//		} else {
-//			String accountType = parts[1].toLowerCase();
-//
-//			CreateValidator newCreateValidator = new CreateValidator(bank, command);
-//			if ((accountType.equals("checking")) || (accountType.equals("savings"))) {
-//				if (parts.length == 4) {
-//					return newCreateValidator.validateCreateCheckingOrSavings(parts[2], parts[3]);
-//				}
-//			} else if (accountType.equals("cd")) {
-//				if (parts.length == 5) {
-//					return newCreateValidator.validateCreateCD(parts[2], parts[3], parts[4]);
-//				}
-//			}
-//		}
-//
-//		return false;
-//	}
-//
-//	public boolean validateDeposit(String command) {
-//		String[] parts = parseCommand(command);
-//
-//		if ((emptyCommand(parts)) || !(validCommandType(parts[0]))) {
-//			return false;
-//
-//		} else {
-//			DepositValidator newDepositValidator = new DepositValidator(bank, command);
-//			if (parts.length == 3) {
-//				return newDepositValidator.validateDepositIntoAccount(command);
-//
-//			}
-//		}
-//
-//		return false;
-//	}
-
 }

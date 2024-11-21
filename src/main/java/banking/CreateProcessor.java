@@ -8,7 +8,8 @@ public class CreateProcessor extends CommandProcessor {
 		this.command = command;
 	}
 
-	public void createAccount(String[] parts) {
+	public void createAccount(String command) {
+		String[] parts = super.parseCommand(command);
 		String accountType = parts[1].toLowerCase();
 		int id = Integer.parseInt(parts[2]);
 		double aprValue = Double.parseDouble(parts[3]);
@@ -21,6 +22,7 @@ public class CreateProcessor extends CommandProcessor {
 		if (accountType.equals("checking")) {
 			Checking newChecking = new Checking(id, aprValue);
 			bank.addAccount(newChecking);
+			newChecking.addToTransactionHistory(command);
 		} else if (accountType.equals("savings")) {
 			Savings newSavings = new Savings(id, aprValue);
 			bank.addAccount(newSavings);

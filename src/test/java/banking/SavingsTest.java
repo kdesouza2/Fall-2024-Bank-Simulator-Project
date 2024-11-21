@@ -57,4 +57,14 @@ public class SavingsTest extends AccountsTest {
 		double actual = testSavings.getBalance();
 		assertEquals(0.00, actual);
 	}
+
+	@Test
+	public void new_savings_account_has_empty_transaction_history() {
+		assertEquals(testSavings.getTransactionHistory().size(), 0);
+	}
+
+	@Test
+	public void new_savings_account_has_time_0() {
+		assertEquals(testSavings.getTime(), 0);
+	}
 }

@@ -17,10 +17,13 @@ public class CommandProcessor {
 
 		if (commandType.equals("create")) {
 			CreateProcessor createProcessor = new CreateProcessor(bank, command);
-			createProcessor.createAccount(parts);
+			createProcessor.createAccount(command);
 		} else if (commandType.equals("deposit")) {
 			DepositProcessor depositProcessor = new DepositProcessor(bank, command);
-			depositProcessor.depositIntoAccount(parts);
+			depositProcessor.depositIntoAccount(command);
+		} else if (commandType.equals("pass")) {
+			PassTimeProcessor passTimeProcessor = new PassTimeProcessor(bank, command);
+			passTimeProcessor.passTime(command);
 		}
 	}
 }

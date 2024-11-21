@@ -22,6 +22,10 @@ public class Bank {
 		return accountsInBank.get(accountId);
 	}
 
+	public void closeAccount(int accountId) {
+		accountsInBank.remove(accountId);
+	}
+
 	public boolean accountExistsByAccountID(int accountId) {
 		if (retrieve(accountId) != null) {
 			return true;

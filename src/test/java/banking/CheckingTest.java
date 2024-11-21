@@ -56,4 +56,15 @@ public class CheckingTest extends AccountsTest {
 		double actual = testChecking.getBalance();
 		assertEquals(0.00, actual);
 	}
+
+	@Test
+	public void new_checking_account_has_empty_transaction_history() {
+		assertEquals(testChecking.getTransactionHistory().size(), 0);
+	}
+
+	@Test
+	public void new_checking_account_has_time_0() {
+		assertEquals(testChecking.getTime(), 0);
+	}
+
 }
