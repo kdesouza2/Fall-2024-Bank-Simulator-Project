@@ -44,6 +44,7 @@ public class Accounts {
 
 	public void deposit(double amount) {
 		balance += amount;
+		balance = Math.floor(balance * 100.0) / 100.0; // Round to 2 decimal places
 	}
 
 	public void withdraw(double amount) {

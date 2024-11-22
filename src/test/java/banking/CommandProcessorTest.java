@@ -11,13 +11,15 @@ public class CommandProcessorTest {
 	private Bank newBank;
 	private Checking testChecking;
 	private Savings testSavings;
+	private CD testCD;
 
 	@BeforeEach
 	void setUp() {
 		newBank = new Bank();
 		commandProcessor = new CommandProcessor(newBank);
-		testChecking = new Checking(12345678, 0.06);
-		testSavings = new Savings(12345678, 0.06);
+		testChecking = new Checking(12345678, 9.8);
+		testSavings = new Savings(12345678, 9.8);
+		testCD = new CD(12345678, 9.8, 1000);
 	}
 
 	///////////////////////////////////////////////////////////////////
@@ -103,7 +105,14 @@ public class CommandProcessorTest {
 	void deposit_into_checking_account() {
 		newBank.addAccount(testChecking);
 		commandProcessor.processCommand("deposit 12345678 100");
-		assertEquals(newBank.retrieve(12345678).getBalance(), 100);
+		assertEquals(testChecking.getBalance(), 100);
+	}
+
+	@Test
+	void deposit_into_checking_account_has_transaction_history_2() {
+		commandProcessor.processCommand("create checking 12345678 0.09");
+		commandProcessor.processCommand("deposit 12345678 100");
+		assertEquals(newBank.retrieve(12345678).getTransactionHistory().size(), 2);
 	}
 
 	@Test
@@ -111,14 +120,29 @@ public class CommandProcessorTest {
 		newBank.addAccount(testChecking);
 		commandProcessor.processCommand("deposit 12345678 100");
 		commandProcessor.processCommand("deposit 12345678 100");
-		assertEquals(newBank.retrieve(12345678).getBalance(), 200);
+		assertEquals(testChecking.getBalance(), 200);
+	}
+
+	@Test
+	void deposit_into_checking_account__twice_has_transaction_history_3() {
+		commandProcessor.processCommand("create checking 12345678 0.09");
+		commandProcessor.processCommand("deposit 12345678 100");
+		commandProcessor.processCommand("deposit 12345678 100");
+		assertEquals(newBank.retrieve(12345678).getTransactionHistory().size(), 3);
 	}
 
 	@Test
 	void deposit_into_savings_account() {
 		newBank.addAccount(testSavings);
 		commandProcessor.processCommand("deposit 12345678 100");
-		assertEquals(newBank.retrieve(12345678).getBalance(), 100);
+		assertEquals(testSavings.getBalance(), 100);
+	}
+
+	@Test
+	void deposit_into_savings_account_has_transaction_history_2() {
+		commandProcessor.processCommand("create savings 12345678 0.09");
+		commandProcessor.processCommand("deposit 12345678 100");
+		assertEquals(newBank.retrieve(12345678).getTransactionHistory().size(), 2);
 	}
 
 	@Test
@@ -126,24 +150,58 @@ public class CommandProcessorTest {
 		newBank.addAccount(testSavings);
 		commandProcessor.processCommand("deposit 12345678 100");
 		commandProcessor.processCommand("deposit 12345678 100");
-		assertEquals(newBank.retrieve(12345678).getBalance(), 200);
+		assertEquals(testSavings.getBalance(), 200);
+	}
+
+	@Test
+	void deposit_into_savings_account__twice_has_transaction_history_3() {
+		commandProcessor.processCommand("create savings 12345678 0.09");
+		commandProcessor.processCommand("deposit 12345678 100");
+		commandProcessor.processCommand("deposit 12345678 100");
+		assertEquals(newBank.retrieve(12345678).getTransactionHistory().size(), 3);
 	}
 
 	///////////////////////////////////////////////////////////////////
 	///////////////////// PASS TIME TESTS /////////////////////////////
 	///////////////////////////////////////////////////////////////////
 	@Test
-	void pass_command() {
-		newBank.addAccount(testChecking);
+	void pass_command_with_active_account() {
+		newBank.addAccount(testSavings);
+		testSavings.deposit(1000); // so pass won't close the account
 		commandProcessor.processCommand("pass 1");
-		assertEquals(newBank.retrieve(12345678).getTime(), 1);
+		assertEquals(testSavings.getTime(), 1);
 	}
 
-//	@Test
-//	void pass_command_twice() {
-//		newBank.addAccount(testChecking);
-//
-//		assertEquals(testChecking.getTime(), 5);
-//	}
+	@Test
+	void pass_command_twice_with_active_account() {
+		newBank.addAccount(testChecking);
+		testChecking.deposit(1000); // so pass won't close the account
+		commandProcessor.processCommand("pass 2");
+		commandProcessor.processCommand("pass 3");
+		assertEquals(testChecking.getTime(), 5);
+	}
+
+	@Test
+	void pass_command_updates_balance() {
+		newBank.addAccount(testChecking);
+		testChecking.deposit(1000); // so pass won't close the account
+		commandProcessor.processCommand("pass 1");
+		assertEquals(testChecking.getBalance(), 1008.16);
+	}
+
+	@Test
+	void pass_command_will_close_empty_accounts() {
+		newBank.addAccount(testChecking);
+		commandProcessor.processCommand("pass 1");
+		assertEquals(newBank.getAccounts().size(), 0);
+	}
+
+	@Test
+	void pass_command_will_deduct_from_minimum_account() {
+		newBank.addAccount(testSavings);
+		testSavings.deposit(50);
+		commandProcessor.processCommand("pass 1");
+		assertEquals(testSavings.getBalance(), 25.2);
+	}
 
 }
