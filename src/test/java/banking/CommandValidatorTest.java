@@ -278,6 +278,30 @@ public class CommandValidatorTest {
 		assertTrue(actual);
 	}
 
+	@Test
+	void pass_negative_month_is_invalid() {
+		boolean actual = commandValidator.validateCommand("pass -1");
+		assertFalse(actual);
+	}
+
+	@Test
+	void pass_0_is_invalid() {
+		boolean actual = commandValidator.validateCommand("pass 0");
+		assertFalse(actual);
+	}
+
+	@Test
+	void pass_60_is_valid() {
+		boolean actual = commandValidator.validateCommand("pass 60");
+		assertTrue(actual);
+	}
+
+	@Test
+	void pass_more_than_60_is_invalid() {
+		boolean actual = commandValidator.validateCommand("pass 100");
+		assertFalse(actual);
+	}
+
 	///////////////////////////////////////////////////////////////////
 	///////////////////// GENERAL TESTS ///////////////////////////////
 	///////////////////////////////////////////////////////////////////

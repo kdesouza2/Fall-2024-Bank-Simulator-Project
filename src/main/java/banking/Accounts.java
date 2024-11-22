@@ -58,7 +58,7 @@ public class Accounts {
 		transactionHistory.add(command);
 	}
 
-	public void addTime() {
-		time += 1;
+	public void addTime(int timePassed) {
+		time += timePassed;
 	}
 }

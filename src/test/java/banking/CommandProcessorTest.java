@@ -59,6 +59,42 @@ public class CommandProcessorTest {
 		assertEquals(newBank.retrieve(12345678).getBalance(), 1000);
 	}
 
+	@Test
+	void new_checking_account_has_transaction_history_size_1() {
+		commandProcessor.processCommand("create checking 12345678 0.09");
+		assertEquals(newBank.retrieve(12345678).getTransactionHistory().size(), 1);
+	}
+
+	@Test
+	void new_savings_account_has_transaction_history_size_1() {
+		commandProcessor.processCommand("create savings 12345678 0.09");
+		assertEquals(newBank.retrieve(12345678).getTransactionHistory().size(), 1);
+	}
+
+	@Test
+	void new_cd_account_has_transaction_history_size_1() {
+		commandProcessor.processCommand("create cd 12345678 0.09 1000");
+		assertEquals(newBank.retrieve(12345678).getTransactionHistory().size(), 1);
+	}
+
+	@Test
+	void new_checking_account_has_time_0() {
+		commandProcessor.processCommand("create checking 12345678 0.09");
+		assertEquals(newBank.retrieve(12345678).getTime(), 0);
+	}
+
+	@Test
+	void new_savings_account_has_time_0() {
+		commandProcessor.processCommand("create savings 12345678 0.09");
+		assertEquals(newBank.retrieve(12345678).getTime(), 0);
+	}
+
+	@Test
+	void new_cd_account_has_time_0() {
+		commandProcessor.processCommand("create cd 12345678 0.09 1000");
+		assertEquals(newBank.retrieve(12345678).getTime(), 0);
+	}
+
 	///////////////////////////////////////////////////////////////////
 	///////////////////// DEPOSIT TESTS ///////////////////////////////
 	///////////////////////////////////////////////////////////////////
@@ -92,5 +128,22 @@ public class CommandProcessorTest {
 		commandProcessor.processCommand("deposit 12345678 100");
 		assertEquals(newBank.retrieve(12345678).getBalance(), 200);
 	}
+
+	///////////////////////////////////////////////////////////////////
+	///////////////////// PASS TIME TESTS /////////////////////////////
+	///////////////////////////////////////////////////////////////////
+	@Test
+	void pass_command() {
+		newBank.addAccount(testChecking);
+		commandProcessor.processCommand("pass 1");
+		assertEquals(newBank.retrieve(12345678).getTime(), 1);
+	}
+
+//	@Test
+//	void pass_command_twice() {
+//		newBank.addAccount(testChecking);
+//
+//		assertEquals(testChecking.getTime(), 5);
+//	}
 
 }

@@ -26,9 +26,11 @@ public class CreateProcessor extends CommandProcessor {
 		} else if (accountType.equals("savings")) {
 			Savings newSavings = new Savings(id, aprValue);
 			bank.addAccount(newSavings);
+			newSavings.addToTransactionHistory(command);
 		} else {
 			CD newCD = new CD(id, aprValue, balance);
 			bank.addAccount(newCD);
+			newCD.addToTransactionHistory(command);
 		}
 	}
 }
