@@ -29,15 +29,20 @@ public class WithdrawalValidator extends CommandValidator {
 			} else if (newAccount.getAccountType().equals("Savings")) {
 				// TO DO: check transaction history -- if account already withdrew in the month
 				// invalid command
+				boolean withdrawInPastMonth = false;
 				if (amount >= 0 && amount <= 1000) {
 					return true;
 				}
 			} else if (newAccount.getAccountType().equals("CD")) {
-				// TO DO: check if the account was created less than a year ago -- if so invalid
+				// check if the account was created less than a year ago -- if so invalid
 				// command
 				// once the year has passed only full withdrawal is allowed -- if amount is less
 				// than balance invalid command
-				return false;
+				if (newAccount.getTime() >= 12) {
+					if (amount >= newAccount.getBalance()) {
+						return true;
+					}
+				}
 			}
 		}
 

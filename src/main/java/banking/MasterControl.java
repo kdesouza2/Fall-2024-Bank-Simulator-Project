@@ -19,7 +19,7 @@ public class MasterControl {
 			if (commandValidator.validateCommand(command)) {
 				commandProcessor.processCommand(command);
 			} else {
-				commandStorage.addInvalidCommand(command);
+				commandStorage.storeInvalidCommand(command);
 			}
 		}
 

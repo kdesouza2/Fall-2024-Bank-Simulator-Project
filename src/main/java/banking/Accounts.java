@@ -1,12 +1,12 @@
 package banking;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 
 public class Accounts {
 	private final int id;
 	private final double aprValue;
-	protected List<String> transactionHistory;
+	protected Map<String, Integer> transactionHistory;
 	protected double balance;
 	protected String accountType;
 	protected int time;
@@ -14,7 +14,7 @@ public class Accounts {
 	public Accounts(int id, double aprValue) {
 		this.id = id;
 		this.aprValue = aprValue;
-		this.transactionHistory = new ArrayList<>();
+		this.transactionHistory = new HashMap<>();
 		this.time = 0; // time in months from opening account
 	}
 
@@ -34,7 +34,7 @@ public class Accounts {
 		return aprValue;
 	}
 
-	public List<String> getTransactionHistory() {
+	public Map<String, Integer> getTransactionHistory() {
 		return transactionHistory;
 	}
 
@@ -55,8 +55,8 @@ public class Accounts {
 		}
 	}
 
-	public void addToTransactionHistory(String command) {
-		transactionHistory.add(command);
+	public void addToTransactionHistory(String command, int time) {
+		transactionHistory.put(command, time);
 	}
 
 	public void addTime(int timePassed) {

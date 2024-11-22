@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class CommandStorage {
-	private List<String> listOfInvalidCommands;
+	public List<String> listOfInvalidCommands;
 
 	public CommandStorage() {
 		listOfInvalidCommands = new ArrayList<>();
@@ -14,7 +14,7 @@ public class CommandStorage {
 		return listOfInvalidCommands;
 	}
 
-	public void addInvalidCommand(String command) {
+	public void storeInvalidCommand(String command) {
 		listOfInvalidCommands.add(command);
 	}
 

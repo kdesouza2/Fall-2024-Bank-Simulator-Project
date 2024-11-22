@@ -15,7 +15,7 @@ public class CommandStorageTest {
 
 	@Test
 	void add_invalid_command_to_list() {
-		commandStorage.addInvalidCommand("creat checking 12345678 0.09");
+		commandStorage.storeInvalidCommand("creat checking 12345678 0.09");
 		assertEquals(1, commandStorage.getInvalidCommands().size());
 	}
 
@@ -26,8 +26,8 @@ public class CommandStorageTest {
 
 	@Test
 	void add_two_invalid_commands_to_list() {
-		commandStorage.addInvalidCommand("creat checking 12345678 0.1");
-		commandStorage.addInvalidCommand("depositt 23456789 0.03");
+		commandStorage.storeInvalidCommand("creat checking 12345678 0.1");
+		commandStorage.storeInvalidCommand("depositt 23456789 0.03");
 		assertEquals(2, commandStorage.getInvalidCommands().size());
 	}
 
