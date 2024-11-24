@@ -53,7 +53,7 @@ public class CommandValidator {
 				if (parts.length == 3) {
 					return newDepositValidator.validateDepositIntoAccount(command);
 				}
-			} else if (commandType.equals("withdrawal")) {
+			} else if (commandType.equals("withdraw")) {
 				WithdrawalValidator newWithdrawalValidator = new WithdrawalValidator(bank, command);
 				if (parts.length == 3) {
 					return newWithdrawalValidator.validateWithdrawalFromAccount(command);
@@ -63,8 +63,6 @@ public class CommandValidator {
 				if (parts.length == 2) {
 					return newPassTimeValidator.validatePassTime(command);
 				}
-			} else if (commandType.equals("withdraw")) {
-				return true;
 			} else if (commandType.equals("transfer")) {
 				return true;
 			}
