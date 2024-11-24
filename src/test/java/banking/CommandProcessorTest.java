@@ -123,13 +123,13 @@ public class CommandProcessorTest {
 		assertEquals(testChecking.getBalance(), 200);
 	}
 
-//	@Test
-//	void deposit_into_checking_account_twice_has_transaction_history_3() {
-//		commandProcessor.processCommand("create checking 12345678 0.09");
-//		commandProcessor.processCommand("deposit 12345678 100");
-//		commandProcessor.processCommand("deposit 12345678 100");
-//		assertEquals(newBank.retrieve(12345678).getTransactionHistory().size(), 3);
-//	}
+	@Test
+	void deposit_into_checking_account_twice_has_transaction_history_3() {
+		commandProcessor.processCommand("create checking 12345678 0.09");
+		commandProcessor.processCommand("deposit 12345678 100");
+		commandProcessor.processCommand("deposit 12345678 100");
+		assertEquals(newBank.retrieve(12345678).getTransactionHistory().size(), 3);
+	}
 
 	@Test
 	void deposit_into_savings_account() {
@@ -153,13 +153,13 @@ public class CommandProcessorTest {
 		assertEquals(testSavings.getBalance(), 200);
 	}
 
-//	@Test
-//	void deposit_into_savings_account__twice_has_transaction_history_3() {
-//		commandProcessor.processCommand("create savings 12345678 0.09");
-//		commandProcessor.processCommand("deposit 12345678 100");
-//		commandProcessor.processCommand("deposit 12345678 100");
-//		assertEquals(newBank.retrieve(12345678).getTransactionHistory().size(), 3);
-//	}
+	@Test
+	void deposit_into_savings_account__twice_has_transaction_history_3() {
+		commandProcessor.processCommand("create savings 12345678 0.09");
+		commandProcessor.processCommand("deposit 12345678 100");
+		commandProcessor.processCommand("deposit 12345678 100");
+		assertEquals(newBank.retrieve(12345678).getTransactionHistory().size(), 3);
+	}
 
 	///////////////////////////////////////////////////////////////////
 	///////////////////// PASS TIME TESTS /////////////////////////////
@@ -202,6 +202,13 @@ public class CommandProcessorTest {
 		testSavings.deposit(50);
 		commandProcessor.processCommand("pass 1");
 		assertEquals(testSavings.getBalance(), 25.2);
+	}
+
+	@Test
+	void pass_command_will_accrue_apr_for_cd_accounts_4_times() {
+		newBank.addAccount(testCD);
+		commandProcessor.processCommand("pass 1");
+		assertEquals(testCD.getBalance(), 1033.05);
 	}
 
 }

@@ -15,6 +15,15 @@ public class PassTimeProcessor extends CommandProcessor {
 		account.deposit(amount);
 	}
 
+	public void accrueAPRCD(Accounts account) {
+		for (int i = 0; i < 4; i++) {
+			// calculate new APR
+			double num = (account.getAprValue() / 100) / 12;
+			double amount = account.getBalance() * num;
+			account.deposit(amount);
+		}
+	}
+
 	public void passTime(String command) {
 		String[] parts = super.parseCommand(command);
 		int time = Integer.parseInt(parts[1]);
@@ -22,16 +31,29 @@ public class PassTimeProcessor extends CommandProcessor {
 		for (int start = 1; start <= time; start++) {
 			// iterate through the all the accounts in bank
 			for (Accounts account : bank.getAccounts().values()) {
+				// if account is savings, set withdrawable to true
+				if (account.getAccountType().equals("Savings")) {
+					account.resetWithdrawable();
+				}
+
 				// check if the accounts balance is 0 -- if so close account
 				if (account.getBalance() == 0) {
 					bank.closeAccount(account.getId());
 					// check if the balance is below 100 and deduct 25
 				} else if (account.getBalance() < 100) {
 					account.withdraw(25);
-					accrueAPR(account);
+					if (account.getAccountType().equals("CD")) {
+						accrueAPRCD(account);
+					} else {
+						accrueAPR(account);
+					}
 					account.addTime(1);
 				} else {
-					accrueAPR(account);
+					if (account.getAccountType().equals("CD")) {
+						accrueAPRCD(account);
+					} else {
+						accrueAPR(account);
+					}
 					account.addTime(1);
 				}
 			}

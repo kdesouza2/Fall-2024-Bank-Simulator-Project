@@ -15,6 +15,6 @@ public class DepositProcessor extends CommandProcessor {
 
 		Accounts target = bank.retrieve(id);
 		target.deposit(amount);
-		target.addToTransactionHistory(command, target.getTime());
+		target.addToTransactionHistory(command);
 	}
 }

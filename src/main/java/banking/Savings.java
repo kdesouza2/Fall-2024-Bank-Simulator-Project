@@ -6,6 +6,7 @@ public class Savings extends Accounts {
 		super(id, aprValue);
 		balance = 0;
 		accountType = "Savings";
+		withdrawable = true;
 	}
 
 }

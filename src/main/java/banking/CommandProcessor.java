@@ -24,6 +24,9 @@ public class CommandProcessor {
 		} else if (commandType.equals("pass")) {
 			PassTimeProcessor passTimeProcessor = new PassTimeProcessor(bank, command);
 			passTimeProcessor.passTime(command);
+		} else if (commandType.equals("withdraw")) {
+			WithdrawalProcessor withdrawalProcessor = new WithdrawalProcessor(bank, command);
+			withdrawalProcessor.withdrawFromAccount(command);
 		}
 	}
 }

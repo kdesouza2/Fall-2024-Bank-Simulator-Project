@@ -1,6 +1,7 @@
 package banking;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.junit.jupiter.api.Test;
 
@@ -66,5 +67,10 @@ public class SavingsTest extends AccountsTest {
 	@Test
 	public void new_savings_account_has_time_0() {
 		assertEquals(testSavings.getTime(), 0);
+	}
+
+	@Test
+	public void new_savings_account_has_withdrawable_status_true() {
+		assertTrue(testSavings.isWithdrawable());
 	}
 }
