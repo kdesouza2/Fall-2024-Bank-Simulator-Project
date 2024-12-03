@@ -35,7 +35,7 @@ public class WithdrawalValidator extends CommandValidator {
 					}
 				}
 			} else if (newAccount.getAccountType().equals("CD")) {
-				// check if the account was created less than a year ago -- if so invalid
+				// check if the account was created less than a year ago --- if so invalid
 				// command
 				// once the year has passed only full withdrawal is allowed -- if amount is less
 				// than balance invalid command
