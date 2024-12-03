@@ -360,6 +360,37 @@ public class CommandValidatorTest {
 		assertFalse(actual);
 	}
 
+	@Test
+	void withdraw_from_newly_opened_cd_account_is_invalid() {
+		newBank.addAccount(testCD);
+		boolean actual = commandValidator.validateCommand("withdraw 12345678 1000");
+		assertFalse(actual);
+	}
+
+	@Test
+	void withdraw_amount_less_than_balance_from_valid_cd_is_invalid() {
+		newBank.addAccount(testCD);
+		testCD.setTime(12);
+		boolean actual = commandValidator.validateCommand("withdraw 12345678 23");
+		assertFalse(actual);
+	}
+
+	@Test
+	void withdraw_amount_equal_to_balance_from_valid_cd_is_valid() {
+		newBank.addAccount(testCD);
+		testCD.setTime(12);
+		boolean actual = commandValidator.validateCommand("withdraw 12345678 1000");
+		assertTrue(actual);
+	}
+
+	@Test
+	void withdraw_amount_greater_than_balance_from_valid_cd_is_valid() {
+		newBank.addAccount(testCD);
+		testCD.setTime(12);
+		boolean actual = commandValidator.validateCommand("withdraw 12345678 1200");
+		assertTrue(actual);
+	}
+
 	///////////////////////////////////////////////////////////////////
 	///////////////////// PASS TIME TESTS /////////////////////////////
 	///////////////////////////////////////////////////////////////////

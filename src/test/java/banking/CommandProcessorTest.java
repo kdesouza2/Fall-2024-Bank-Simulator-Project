@@ -1,6 +1,7 @@
 package banking;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -154,7 +155,7 @@ public class CommandProcessorTest {
 	}
 
 	@Test
-	void deposit_into_savings_account__twice_has_transaction_history_3() {
+	void deposit_into_savings_account_twice_has_transaction_history_3() {
 		commandProcessor.processCommand("create savings 12345678 0.09");
 		commandProcessor.processCommand("deposit 12345678 100");
 		commandProcessor.processCommand("deposit 12345678 100");
@@ -165,11 +166,27 @@ public class CommandProcessorTest {
 	///////////////////// PASS TIME TESTS /////////////////////////////
 	///////////////////////////////////////////////////////////////////
 	@Test
-	void pass_command_with_active_account() {
+	void pass_command_with_savings_account() {
 		newBank.addAccount(testSavings);
 		testSavings.deposit(1000); // so pass won't close the account
 		commandProcessor.processCommand("pass 1");
 		assertEquals(testSavings.getTime(), 1);
+	}
+
+	@Test
+	void pass_command_with_checking_account() {
+		newBank.addAccount(testChecking);
+		testChecking.deposit(1000); // so pass won't close the account
+		commandProcessor.processCommand("pass 1");
+		assertEquals(testChecking.getTime(), 1);
+	}
+
+	@Test
+	void pass_command_with_cd_account() {
+		newBank.addAccount(testCD);
+		testCD.deposit(1000); // so pass won't close the account
+		commandProcessor.processCommand("pass 1");
+		assertEquals(testCD.getTime(), 1);
 	}
 
 	@Test
@@ -209,6 +226,96 @@ public class CommandProcessorTest {
 		newBank.addAccount(testCD);
 		commandProcessor.processCommand("pass 1");
 		assertEquals(testCD.getBalance(), 1033.05);
+	}
+
+	@Test
+	void pass_command_will_reset_withdrawable_status_for_savings() {
+		newBank.addAccount(testSavings);
+		testSavings.setWithdrawableFalse();
+		commandProcessor.processCommand("pass 1");
+		assertTrue(testSavings.isWithdrawable());
+	}
+
+	///////////////////////////////////////////////////////////////////
+	///////////////////// WITHDRAWAL TESTS ////////////////////////////
+	///////////////////////////////////////////////////////////////////
+	@Test
+	void withdraw_amount_less_than_balance_from_checking() {
+		newBank.addAccount(testChecking);
+		testChecking.deposit(100);
+		commandProcessor.processCommand("withdraw 12345678 50");
+		assertEquals(testChecking.getBalance(), 50);
+	}
+
+	@Test
+	void withdraw_twice_from_checking() {
+		newBank.addAccount(testChecking);
+		testChecking.deposit(100);
+		commandProcessor.processCommand("withdraw 12345678 50");
+		commandProcessor.processCommand("withdraw 12345678 50");
+		assertEquals(testChecking.getBalance(), 0);
+	}
+
+	@Test
+	void withdraw_amount_greater_than_balance_from_checking() {
+		newBank.addAccount(testChecking);
+		testChecking.deposit(100);
+		commandProcessor.processCommand("withdraw 12345678 150");
+		assertEquals(testChecking.getBalance(), 0);
+	}
+
+	@Test
+	void withdraw_amount_equal_to_balance_from_checking() {
+		newBank.addAccount(testChecking);
+		testChecking.deposit(100);
+		commandProcessor.processCommand("withdraw 12345678 100");
+		assertEquals(testChecking.getBalance(), 0);
+	}
+
+	@Test
+	void create_and_valid_withdraw_from_checking_has_transaction_history_of_2() {
+		commandProcessor.processCommand("create checking 12345678 0.09");
+		commandProcessor.processCommand("withdraw 12345678 100");
+		assertEquals(newBank.retrieve(12345678).getTransactionHistory().size(), 2);
+	}
+
+	@Test
+	void create_and_valid_withdraw_from_checking_twice_has_transaction_history_of_3() {
+		commandProcessor.processCommand("create checking 12345678 0.09");
+		commandProcessor.processCommand("withdraw 12345678 100");
+		commandProcessor.processCommand("withdraw 12345678 100");
+		assertEquals(newBank.retrieve(12345678).getTransactionHistory().size(), 3);
+	}
+
+	@Test
+	void withdraw_amount_less_than_balance_from_withdrawable_savings() {
+		newBank.addAccount(testSavings);
+		testSavings.deposit(100);
+		commandProcessor.processCommand("withdraw 12345678 50");
+		assertEquals(testSavings.getBalance(), 50);
+	}
+
+	@Test
+	void withdraw_amount_greater_than_balance_from_withdrawable_savings() {
+		newBank.addAccount(testSavings);
+		testSavings.deposit(100);
+		commandProcessor.processCommand("withdraw 12345678 150");
+		assertEquals(testSavings.getBalance(), 0);
+	}
+
+	@Test
+	void withdraw_amount_equal_to_balance_from_withdrawable_savings() {
+		newBank.addAccount(testSavings);
+		testSavings.deposit(100);
+		commandProcessor.processCommand("withdraw 12345678 100");
+		assertEquals(testSavings.getBalance(), 0);
+	}
+
+	@Test
+	void create_and_valid_withdraw_from_savings_has_transaction_history_of_2() {
+		commandProcessor.processCommand("create savings 12345678 0.09");
+		commandProcessor.processCommand("withdraw 12345678 100");
+		assertEquals(newBank.retrieve(12345678).getTransactionHistory().size(), 2);
 	}
 
 }

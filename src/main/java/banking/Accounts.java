@@ -43,6 +43,10 @@ public class Accounts {
 		return time;
 	}
 
+	public void setTime(int timePassed) {
+		time = timePassed;
+	}
+
 	public void deposit(double amount) {
 		balance += amount;
 		balance = Math.floor(balance * 100.0) / 100.0; // Round to 2 decimal places
