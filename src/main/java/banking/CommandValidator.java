@@ -64,7 +64,10 @@ public class CommandValidator {
 					return newPassTimeValidator.validatePassTime(command);
 				}
 			} else if (commandType.equals("transfer")) {
-				return true;
+				TransferValidator newTransferValidator = new TransferValidator(bank, command);
+				if (parts.length == 4) {
+					return newTransferValidator.validateTransfer(command);
+				}
 			}
 		}
 
