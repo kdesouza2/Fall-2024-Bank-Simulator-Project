@@ -32,14 +32,32 @@ public class CommandValidatorTest {
 	}
 
 	@Test
+	void create_checking_command_isnt_case_sensitive() {
+		boolean actual = commandValidator.validateCommand("CrEaTe ChecKing 12345678 0.01");
+		assertTrue(actual);
+	}
+
+	@Test
 	void valid_create_savings_command() {
 		boolean actual = commandValidator.validateCommand("create savings 12345678 0.01");
 		assertTrue(actual);
 	}
 
 	@Test
+	void create_savings_command_isnt_case_sensitive() {
+		boolean actual = commandValidator.validateCommand("CrEaTe sAvINgs 12345678 0.01");
+		assertTrue(actual);
+	}
+
+	@Test
 	void valid_create_cd_command() {
 		boolean actual = commandValidator.validateCommand("create cd 12345678 0.01 1001");
+		assertTrue(actual);
+	}
+
+	@Test
+	void create_cd_command_isnt_case_sensitive() {
+		boolean actual = commandValidator.validateCommand("CrEaTe cD 12345678 0.01 1000");
 		assertTrue(actual);
 	}
 
@@ -458,7 +476,6 @@ public class CommandValidatorTest {
 	void transfer_amount_from_checking_to_savings_is_valid() {
 		newBank.addAccount(testChecking);
 		newBank.addAccount(testSavings);
-		testChecking.deposit(100);
 		boolean actual = commandValidator.validateCommand("transfer 12345678 23456789 100");
 		assertTrue(actual);
 	}
@@ -467,7 +484,6 @@ public class CommandValidatorTest {
 	void transfer_amount_from_savings_to_checking_is_valid() {
 		newBank.addAccount(testChecking);
 		newBank.addAccount(testSavings);
-		testChecking.deposit(100);
 		boolean actual = commandValidator.validateCommand("transfer 23456789 12345678 100");
 		assertTrue(actual);
 	}
@@ -487,4 +503,98 @@ public class CommandValidatorTest {
 		boolean actual = commandValidator.validateCommand("transfer 12345678 34567890 100");
 		assertFalse(actual);
 	}
+
+	@Test
+	void transfer_without_command_is_invalid() {
+		boolean actual = commandValidator.validateCommand("12345678 23456789 100");
+		assertFalse(actual);
+	}
+
+	@Test
+	void transfer_with_one_account_number_missing_is_invalid() {
+		boolean actual = commandValidator.validateCommand("transfer 12345678 100");
+		assertFalse(actual);
+	}
+
+	@Test
+	void transfer_with_both_account_numbers_missing_is_invalid() {
+		boolean actual = commandValidator.validateCommand("transfer 100");
+		assertFalse(actual);
+	}
+
+	@Test
+	void transfer_without_amount_is_invalid() {
+		boolean actual = commandValidator.validateCommand("transfer 12345678 23456789");
+		assertFalse(actual);
+	}
+
+	@Test
+	void transfer_amount_into_checking_more_than_1000_is_invalid() {
+		newBank.addAccount(testChecking);
+		newBank.addAccount(testSavings);
+		boolean actual = commandValidator.validateCommand("transfer 23456789 12345678 10000");
+		assertFalse(actual);
+	}
+
+	@Test
+	void transfer_amount_into_savings_more_than_2500_is_invalid() {
+		newBank.addAccount(testChecking);
+		newBank.addAccount(testSavings);
+		boolean actual = commandValidator.validateCommand("transfer 12345678 2345678 10000");
+		assertFalse(actual);
+	}
+
+	@Test
+	void transfer_amount_from_checking_more_than_400_is_invalid() {
+		newBank.addAccount(testChecking);
+		newBank.addAccount(testSavings);
+		boolean actual = commandValidator.validateCommand("transfer 12345678 2345678 10000");
+		assertFalse(actual);
+	}
+
+	@Test
+	void transfer_amount_from_savings_more_than_1000_is_invalid() {
+		newBank.addAccount(testChecking);
+		newBank.addAccount(testSavings);
+		boolean actual = commandValidator.validateCommand("transfer 2345678 12345678 10000");
+		assertFalse(actual);
+	}
+
+	@Test
+	void transfer_negative_amount_is_invalid() {
+		newBank.addAccount(testChecking);
+		newBank.addAccount(testSavings);
+		boolean actual = commandValidator.validateCommand("transfer 2345678 12345678 -1");
+		assertFalse(actual);
+	}
+
+	@Test
+	void transfer_from_nonexistent_account_is_invalid() {
+		newBank.addAccount(testChecking);
+		boolean actual = commandValidator.validateCommand("transfer 23456789 12345678 100");
+		assertFalse(actual);
+	}
+
+	@Test
+	void transfer_to_nonexistent_account_is_invalid() {
+		newBank.addAccount(testSavings);
+		boolean actual = commandValidator.validateCommand("transfer 23456789 12345678 100");
+		assertFalse(actual);
+	}
+
+	@Test
+	void transfer_command_with_empty_bank_is_invalid() {
+		boolean actual = commandValidator.validateCommand("transfer 23456789 12345678 100");
+		assertFalse(actual);
+	}
+
+	@Test
+	void transfer_from_unwithdrawable_savings_account_is_invalid() {
+		newBank.addAccount(testSavings);
+		newBank.addAccount(testChecking);
+		testSavings.setWithdrawableFalse();
+		boolean actual = commandValidator.validateCommand("transfer 23456789 12345678 100");
+		assertFalse(actual);
+	}
+
 }

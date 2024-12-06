@@ -27,6 +27,9 @@ public class CommandProcessor {
 		} else if (commandType.equals("withdraw")) {
 			WithdrawalProcessor withdrawalProcessor = new WithdrawalProcessor(bank, command);
 			withdrawalProcessor.withdrawFromAccount(command);
+		} else if (commandType.equals("transfer")) {
+			TransferProcessor transferProcessor = new TransferProcessor(bank, command);
+			transferProcessor.transferMoney(command);
 		}
 	}
 }
