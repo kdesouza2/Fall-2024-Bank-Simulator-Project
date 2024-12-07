@@ -42,14 +42,14 @@ public class PassTimeProcessor extends CommandProcessor {
 					// check if the balance is below 100 and deduct 25
 				} else if (account.getBalance() < 100) {
 					account.withdraw(25);
-					if (account.getAccountType().equals("CD")) {
+					if (account.getAccountType().equals("Cd")) {
 						accrueAPRCD(account);
 					} else {
 						accrueAPR(account);
 					}
 					account.addTime(1);
 				} else {
-					if (account.getAccountType().equals("CD")) {
+					if (account.getAccountType().equals("Cd")) {
 						accrueAPRCD(account);
 					} else {
 						accrueAPR(account);

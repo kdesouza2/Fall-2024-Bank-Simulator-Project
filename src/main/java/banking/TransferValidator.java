@@ -33,7 +33,7 @@ public class TransferValidator extends CommandValidator {
 				Accounts destAccount = bank.retrieve(destId);
 				// check if dest is a CD account
 				// check if src is a CD account
-				if (destAccount.getAccountType().equals("CD") || srcAccount.getAccountType().equals("CD")) {
+				if (destAccount.getAccountType().equals("Cd") || srcAccount.getAccountType().equals("Cd")) {
 					return false;
 				}
 

@@ -1,7 +1,7 @@
 package banking;
 
 public class CommandProcessor {
-	protected Bank bank;
+	public Bank bank;
 
 	public CommandProcessor(Bank bank) {
 		this.bank = bank;

@@ -208,6 +208,7 @@ public class CommandProcessorTest {
 	@Test
 	void pass_command_will_close_empty_accounts() {
 		newBank.addAccount(testChecking);
+		assertEquals(newBank.getAccounts().size(), 1);
 		commandProcessor.processCommand("pass 1");
 		assertEquals(newBank.getAccounts().size(), 0);
 	}

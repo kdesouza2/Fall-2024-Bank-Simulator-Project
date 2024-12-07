@@ -23,6 +23,19 @@ public class MasterControl {
 			}
 		}
 
-		return commandStorage.getInvalidCommands();
+		for (Accounts account : commandProcessor.bank.getAccounts().values()) {
+			String inputString = account.getAccountType() + " " + account.getId() + " " + account.getBalance() + " "
+					+ account.getAprValue();
+			commandStorage.storeOutputCommand(inputString);
+			for (String transaction : account.getTransactionHistory()) {
+				commandStorage.storeOutputCommand(transaction);
+			}
+		}
+
+		for (String invalidCommand : commandStorage.getInvalidCommands()) {
+			commandStorage.storeOutputCommand(invalidCommand);
+		}
+
+		return commandStorage.getOutputCommands();
 	}
 }

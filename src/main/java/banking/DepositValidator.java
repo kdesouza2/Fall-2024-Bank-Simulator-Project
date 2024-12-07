@@ -30,7 +30,7 @@ public class DepositValidator extends CommandValidator {
 				if (amount >= 0 && amount <= 2500) {
 					return true;
 				}
-			} else if (newAccount.getAccountType().equals("CD")) {
+			} else if (newAccount.getAccountType().equals("Cd")) {
 				return false;
 			}
 		}
