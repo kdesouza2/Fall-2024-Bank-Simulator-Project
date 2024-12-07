@@ -227,7 +227,7 @@ public class CommandValidatorTest {
 	@Test
 	void deposit_into_cd_is_invalid() {
 		newBank.addAccount(testCD);
-		boolean actual = commandValidator.validateCommand("deposit 12345678 500");
+		boolean actual = commandValidator.validateCommand("deposit 34567890 500");
 		assertFalse(actual);
 	}
 
