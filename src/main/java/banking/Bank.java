@@ -1,13 +1,13 @@
 package banking;
 
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 public class Bank {
 	private Map<Integer, Accounts> accountsInBank;
 
 	public Bank() {
-		accountsInBank = new HashMap<>();
+		accountsInBank = new LinkedHashMap<>();
 	}
 
 	public Map<Integer, Accounts> getAccounts() {

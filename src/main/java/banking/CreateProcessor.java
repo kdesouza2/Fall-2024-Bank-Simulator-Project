@@ -22,15 +22,15 @@ public class CreateProcessor extends CommandProcessor {
 		if (accountType.equals("checking")) {
 			Checking newChecking = new Checking(id, aprValue);
 			bank.addAccount(newChecking);
-			newChecking.addToTransactionHistory(command);
+			// newChecking.addToTransactionHistory(command);
 		} else if (accountType.equals("savings")) {
 			Savings newSavings = new Savings(id, aprValue);
 			bank.addAccount(newSavings);
-			newSavings.addToTransactionHistory(command);
+			// newSavings.addToTransactionHistory(command);
 		} else {
 			CD newCD = new CD(id, aprValue, balance);
 			bank.addAccount(newCD);
-			newCD.addToTransactionHistory(command);
+			// newCD.addToTransactionHistory(command);
 		}
 	}
 }
