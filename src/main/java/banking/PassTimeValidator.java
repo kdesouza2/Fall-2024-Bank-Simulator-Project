@@ -10,7 +10,13 @@ public class PassTimeValidator extends CommandValidator {
 
 	public boolean validatePassTime(String command) {
 		String[] parts = super.parseCommand(command);
-		int time = Integer.parseInt(parts[1]);
+		int time = 0;
+
+		try {
+			time = Integer.parseInt(parts[1]);
+		} catch (NumberFormatException e) { // if id contains non integers --> id = "keyra"
+			return false;
+		}
 
 		if (time >= 1 && time <= 60) {
 			return true;

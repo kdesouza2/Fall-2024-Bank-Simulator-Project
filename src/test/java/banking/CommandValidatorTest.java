@@ -463,6 +463,12 @@ public class CommandValidatorTest {
 	}
 
 	@Test
+	void withdraw_with_non_int_id_is_invalid() {
+		boolean actual = commandValidator.validateCommand("withdraw keyra 300");
+		assertFalse(actual);
+	}
+
+	@Test
 	void withdraw_amount_from_checking_less_than_balance_is_valid() {
 		newBank.addAccount(testChecking);
 		testChecking.deposit(300);
@@ -658,6 +664,18 @@ public class CommandValidatorTest {
 		assertFalse(actual);
 	}
 
+	@Test
+	void pass_time_with_string_time_is_invalid() {
+		boolean actual = commandValidator.validateCommand("pass keyra");
+		assertFalse(actual);
+	}
+
+	@Test
+	void pass_time_with_double_time_is_invalid() {
+		boolean actual = commandValidator.validateCommand("pass 1.3");
+		assertFalse(actual);
+	}
+
 	///////////////////////////////////////////////////////////////////
 	///////////////////// GENERAL TESTS ///////////////////////////////
 	///////////////////////////////////////////////////////////////////
@@ -682,6 +700,18 @@ public class CommandValidatorTest {
 		newBank.addAccount(testSavings);
 		boolean actual = commandValidator.validateCommand("transfer 12345678 23456789 100");
 		assertTrue(actual);
+	}
+
+	@Test
+	void transfer_with_non_int_src_id_is_invalid() {
+		boolean actual = commandValidator.validateCommand("transfer keyra 12345678 300");
+		assertFalse(actual);
+	}
+
+	@Test
+	void transfer_with_non_int_dest_id_is_invalid() {
+		boolean actual = commandValidator.validateCommand("transfer 12345678 keyra 300");
+		assertFalse(actual);
 	}
 
 	@Test
