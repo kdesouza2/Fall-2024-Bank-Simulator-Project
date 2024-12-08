@@ -32,6 +32,42 @@ public class CommandValidatorTest {
 	}
 
 	@Test
+	void too_short_id_in_create_checking_is_invalid() {
+		boolean actual = commandValidator.validateCommand("create checking 12345 0.09");
+		assertFalse(actual);
+	}
+
+	@Test
+	void too_short_id_in_create_savings_is_invalid() {
+		boolean actual = commandValidator.validateCommand("create savings 12345 0.09");
+		assertFalse(actual);
+	}
+
+	@Test
+	void too_short_id_in_cd_checking_is_invalid() {
+		boolean actual = commandValidator.validateCommand("create cd 12345 0.09 1005");
+		assertFalse(actual);
+	}
+
+	@Test
+	void too_long_id_create_checking_is_invalid() {
+		boolean actual = commandValidator.validateCommand("create checking 1234567890 0.09");
+		assertFalse(actual);
+	}
+
+	@Test
+	void too_long_id_create_savings_is_invalid() {
+		boolean actual = commandValidator.validateCommand("create savings 1234567890 0.09");
+		assertFalse(actual);
+	}
+
+	@Test
+	void too_long_id_create_cd_is_invalid() {
+		boolean actual = commandValidator.validateCommand("create cd 1234567890 0.09 1050");
+		assertFalse(actual);
+	}
+
+	@Test
 	void typo_in_create_command_in_savings_is_invalid() {
 		boolean actual = commandValidator.validateCommand("crete savings 12345678 0.01");
 		assertFalse(actual);

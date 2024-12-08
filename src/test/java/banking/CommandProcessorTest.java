@@ -97,6 +97,60 @@ public class CommandProcessorTest {
 		assertEquals(newBank.retrieve(12345678).getTime(), 0);
 	}
 
+	@Test
+	void id_after_create_checking_command_is_accurate() {
+		commandProcessor.processCommand("create checking 12345678 0.09");
+		assertTrue(newBank.accountExistsByAccountID(12345678));
+	}
+
+	@Test
+	void account_type_after_create_checking_command_is_accurate() {
+		commandProcessor.processCommand("create checking 12345678 0.09");
+		assertEquals(newBank.retrieve(12345678).getAccountType(), "Checking");
+	}
+
+	@Test
+	void apr_value_after_create_checking_command_is_accurate() {
+		commandProcessor.processCommand("create checking 12345678 0.09");
+		assertEquals(newBank.retrieve(12345678).getAprValue(), 0.09);
+	}
+
+	@Test
+	void id_after_create_savings_command_is_accurate() {
+		commandProcessor.processCommand("create savings 12345678 0.09");
+		assertTrue(newBank.accountExistsByAccountID(12345678));
+	}
+
+	@Test
+	void account_type_after_create_savings_command_is_accurate() {
+		commandProcessor.processCommand("create savings 12345678 0.09");
+		assertEquals(newBank.retrieve(12345678).getAccountType(), "Savings");
+	}
+
+	@Test
+	void apr_value_after_create_savings_command_is_accurate() {
+		commandProcessor.processCommand("create savings 12345678 0.09");
+		assertEquals(newBank.retrieve(12345678).getAprValue(), 0.09);
+	}
+
+	@Test
+	void id_after_create_cd_command_is_accurate() {
+		commandProcessor.processCommand("create cd 12345678 0.09 1500");
+		assertTrue(newBank.accountExistsByAccountID(12345678));
+	}
+
+	@Test
+	void account_type_after_create_cd_command_is_accurate() {
+		commandProcessor.processCommand("create cd 12345678 0.09 1500");
+		assertEquals(newBank.retrieve(12345678).getAccountType(), "Cd");
+	}
+
+	@Test
+	void apr_value_after_create_cd_command_is_accurate() {
+		commandProcessor.processCommand("create cd 12345678 0.09 1500");
+		assertEquals(newBank.retrieve(12345678).getAprValue(), 0.09);
+	}
+
 	///////////////////////////////////////////////////////////////////
 	///////////////////// DEPOSIT TESTS ///////////////////////////////
 	///////////////////////////////////////////////////////////////////
