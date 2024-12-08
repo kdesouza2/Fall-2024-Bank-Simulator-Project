@@ -26,6 +26,42 @@ public class CommandValidatorTest {
 	///////////////////// CREATE TESTS ////////////////////////////////
 	///////////////////////////////////////////////////////////////////
 	@Test
+	void typo_in_create_command_in_checking_is_invalid() {
+		boolean actual = commandValidator.validateCommand("crete checking 12345678 0.01");
+		assertFalse(actual);
+	}
+
+	@Test
+	void typo_in_create_command_in_savings_is_invalid() {
+		boolean actual = commandValidator.validateCommand("crete savings 12345678 0.01");
+		assertFalse(actual);
+	}
+
+	@Test
+	void typo_in_create_command_in_cd_is_invalid() {
+		boolean actual = commandValidator.validateCommand("crete cd 12345678 0.01 1500");
+		assertFalse(actual);
+	}
+
+	@Test
+	void typo_in_account_type_in_create_checking_command_is_invalid() {
+		boolean actual = commandValidator.validateCommand("create cheking 12345678 0.01");
+		assertFalse(actual);
+	}
+
+	@Test
+	void typo_in_account_type_in_create_savings_command_is_invalid() {
+		boolean actual = commandValidator.validateCommand("create svings 12345678 0.01");
+		assertFalse(actual);
+	}
+
+	@Test
+	void typo_in_account_type_in_create_cd_command_is_invalid() {
+		boolean actual = commandValidator.validateCommand("create c 12345678 0.01");
+		assertFalse(actual);
+	}
+
+	@Test
 	void valid_create_checking_command() {
 		boolean actual = commandValidator.validateCommand("create checking 12345678 0.01");
 		assertTrue(actual);
@@ -262,6 +298,12 @@ public class CommandValidatorTest {
 	}
 
 	@Test
+	void typo_in_deposit_command_is_invalid() {
+		boolean actual = commandValidator.validateCommand("depoit 12345678 500");
+		assertFalse(actual);
+	}
+
+	@Test
 	void deposit_more_than_2500_into_savings_is_invalid() {
 		newBank.addAccount(testSavings);
 		boolean actual = commandValidator.validateCommand("deposit 12345678 3000");
@@ -368,6 +410,12 @@ public class CommandValidatorTest {
 	void withdraw_negative_amount_from_checking_is_invalid() {
 		newBank.addAccount(testChecking);
 		boolean actual = commandValidator.validateCommand("withdraw 12345678 -10");
+		assertFalse(actual);
+	}
+
+	@Test
+	void typo_in_withdraw_command_is_invalid() {
+		boolean actual = commandValidator.validateCommand("wthdraw 12345678 100");
 		assertFalse(actual);
 	}
 
@@ -545,6 +593,12 @@ public class CommandValidatorTest {
 	}
 
 	@Test
+	void typo_in_pass_command_is_invalid() {
+		boolean actual = commandValidator.validateCommand("pss 1");
+		assertFalse(actual);
+	}
+
+	@Test
 	void pass_negative_month_is_invalid() {
 		boolean actual = commandValidator.validateCommand("pass -1");
 		assertFalse(actual);
@@ -708,6 +762,12 @@ public class CommandValidatorTest {
 		newBank.addAccount(testChecking);
 		testSavings.setWithdrawableFalse();
 		boolean actual = commandValidator.validateCommand("transfer 23456789 12345678 100");
+		assertFalse(actual);
+	}
+
+	@Test
+	void typo_in_transfer_is_invalid() {
+		boolean actual = commandValidator.validateCommand("tranfer 12345678 23456789 100");
 		assertFalse(actual);
 	}
 
