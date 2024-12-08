@@ -62,21 +62,21 @@ public class CommandProcessorTest {
 	}
 
 	@Test
-	void new_checking_account_has_transaction_history_size_1() {
+	void new_checking_account_has_transaction_history_size_0() {
 		commandProcessor.processCommand("create checking 12345678 0.09");
-		assertEquals(newBank.retrieve(12345678).getTransactionHistory().size(), 1);
+		assertEquals(newBank.retrieve(12345678).getTransactionHistory().size(), 0);
 	}
 
 	@Test
-	void new_savings_account_has_transaction_history_size_1() {
+	void new_savings_account_has_transaction_history_size_0() {
 		commandProcessor.processCommand("create savings 12345678 0.09");
-		assertEquals(newBank.retrieve(12345678).getTransactionHistory().size(), 1);
+		assertEquals(newBank.retrieve(12345678).getTransactionHistory().size(), 0);
 	}
 
 	@Test
-	void new_cd_account_has_transaction_history_size_1() {
+	void new_cd_account_has_transaction_history_size_0() {
 		commandProcessor.processCommand("create cd 12345678 0.09 1000");
-		assertEquals(newBank.retrieve(12345678).getTransactionHistory().size(), 1);
+		assertEquals(newBank.retrieve(12345678).getTransactionHistory().size(), 0);
 	}
 
 	@Test
@@ -109,10 +109,10 @@ public class CommandProcessorTest {
 	}
 
 	@Test
-	void deposit_into_checking_account_has_transaction_history_2() {
+	void deposit_into_checking_account_has_transaction_history_1() {
 		commandProcessor.processCommand("create checking 12345678 0.09");
 		commandProcessor.processCommand("deposit 12345678 100");
-		assertEquals(newBank.retrieve(12345678).getTransactionHistory().size(), 2);
+		assertEquals(newBank.retrieve(12345678).getTransactionHistory().size(), 1);
 	}
 
 	@Test
@@ -124,11 +124,11 @@ public class CommandProcessorTest {
 	}
 
 	@Test
-	void deposit_into_checking_account_twice_has_transaction_history_3() {
+	void deposit_into_checking_account_twice_has_transaction_history_2() {
 		commandProcessor.processCommand("create checking 12345678 0.09");
 		commandProcessor.processCommand("deposit 12345678 100");
 		commandProcessor.processCommand("deposit 12345678 100");
-		assertEquals(newBank.retrieve(12345678).getTransactionHistory().size(), 3);
+		assertEquals(newBank.retrieve(12345678).getTransactionHistory().size(), 2);
 	}
 
 	@Test
@@ -139,10 +139,10 @@ public class CommandProcessorTest {
 	}
 
 	@Test
-	void deposit_into_savings_account_has_transaction_history_2() {
+	void deposit_into_savings_account_has_transaction_history_1() {
 		commandProcessor.processCommand("create savings 12345678 0.09");
 		commandProcessor.processCommand("deposit 12345678 100");
-		assertEquals(newBank.retrieve(12345678).getTransactionHistory().size(), 2);
+		assertEquals(newBank.retrieve(12345678).getTransactionHistory().size(), 1);
 	}
 
 	@Test
@@ -154,11 +154,11 @@ public class CommandProcessorTest {
 	}
 
 	@Test
-	void deposit_into_savings_account_twice_has_transaction_history_3() {
+	void deposit_into_savings_account_twice_has_transaction_history_2() {
 		commandProcessor.processCommand("create savings 12345678 0.09");
 		commandProcessor.processCommand("deposit 12345678 100");
 		commandProcessor.processCommand("deposit 12345678 100");
-		assertEquals(newBank.retrieve(12345678).getTransactionHistory().size(), 3);
+		assertEquals(newBank.retrieve(12345678).getTransactionHistory().size(), 2);
 	}
 
 	///////////////////////////////////////////////////////////////////
@@ -273,18 +273,18 @@ public class CommandProcessorTest {
 	}
 
 	@Test
-	void create_and_valid_withdraw_from_checking_has_transaction_history_of_2() {
+	void create_and_valid_withdraw_from_checking_has_transaction_history_of_1() {
 		commandProcessor.processCommand("create checking 12345678 0.09");
 		commandProcessor.processCommand("withdraw 12345678 100");
-		assertEquals(newBank.retrieve(12345678).getTransactionHistory().size(), 2);
+		assertEquals(newBank.retrieve(12345678).getTransactionHistory().size(), 1);
 	}
 
 	@Test
-	void create_and_valid_withdraw_from_checking_twice_has_transaction_history_of_3() {
+	void create_and_valid_withdraw_from_checking_twice_has_transaction_history_of_2() {
 		commandProcessor.processCommand("create checking 12345678 0.09");
 		commandProcessor.processCommand("withdraw 12345678 100");
 		commandProcessor.processCommand("withdraw 12345678 100");
-		assertEquals(newBank.retrieve(12345678).getTransactionHistory().size(), 3);
+		assertEquals(newBank.retrieve(12345678).getTransactionHistory().size(), 2);
 	}
 
 	@Test
@@ -312,10 +312,10 @@ public class CommandProcessorTest {
 	}
 
 	@Test
-	void create_and_valid_withdraw_from_savings_has_transaction_history_of_2() {
+	void create_and_valid_withdraw_from_savings_has_transaction_history_of_1() {
 		commandProcessor.processCommand("create savings 12345678 0.09");
 		commandProcessor.processCommand("withdraw 12345678 100");
-		assertEquals(newBank.retrieve(12345678).getTransactionHistory().size(), 2);
+		assertEquals(newBank.retrieve(12345678).getTransactionHistory().size(), 1);
 	}
 
 	///////////////////////////////////////////////////////////////////
