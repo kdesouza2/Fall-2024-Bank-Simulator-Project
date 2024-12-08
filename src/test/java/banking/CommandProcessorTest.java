@@ -236,6 +236,14 @@ public class CommandProcessorTest {
 		assertTrue(testSavings.isWithdrawable());
 	}
 
+	@Test
+	void pass_command_does_not_close_account_with_balance_100() {
+		newBank.addAccount(testChecking);
+		testChecking.deposit(100);
+		commandProcessor.processCommand("pass 1");
+		assertEquals(newBank.getAccounts().size(), 1);
+	}
+
 	///////////////////////////////////////////////////////////////////
 	///////////////////// WITHDRAWAL TESTS ////////////////////////////
 	///////////////////////////////////////////////////////////////////
@@ -379,4 +387,13 @@ public class CommandProcessorTest {
 		assertEquals(testSavings.getTransactionHistory().size(), 1);
 	}
 
+	@Test
+	void transfer_amount_greater_than_balance_of_src_account() {
+		newBank.addAccount(testChecking);
+		newBank.addAccount(testSavings);
+		testChecking.deposit(25);
+		commandProcessor.processCommand("transfer 12345678 23456789 50");
+		assertEquals(testChecking.getBalance(), 0);
+		assertEquals(testSavings.getBalance(), 25);
+	}
 }

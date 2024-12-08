@@ -75,8 +75,14 @@ public class CommandValidatorTest {
 	}
 
 	@Test
-	void create_account_with_more_than_10_apr_is_invalid() {
+	void create_checking_account_with_more_than_10_apr_is_invalid() {
 		boolean actual = commandValidator.validateCommand("create checking 12345678 90");
+		assertFalse(actual);
+	}
+
+	@Test
+	void create_savings_account_with_more_than_10_apr_is_invalid() {
+		boolean actual = commandValidator.validateCommand("create savings 12345678 90");
 		assertFalse(actual);
 	}
 
@@ -177,14 +183,38 @@ public class CommandValidatorTest {
 	}
 
 	@Test
-	void create_with_0_apr_is_valid() {
+	void create_checking_with_0_apr_is_valid() {
 		boolean actual = commandValidator.validateCommand("create checking 12345678 0");
 		assertTrue(actual);
 	}
 
 	@Test
-	void create_with_10_apr_is_valid() {
+	void create_savings_with_0_apr_is_valid() {
+		boolean actual = commandValidator.validateCommand("create savings 12345678 0");
+		assertTrue(actual);
+	}
+
+	@Test
+	void create_checking_with_apr_between_0_and_10_is_valid() {
+		boolean actual = commandValidator.validateCommand("create checking 12345678 5");
+		assertTrue(actual);
+	}
+
+	@Test
+	void create_savings_with_apr_between_0_and_10_is_valid() {
+		boolean actual = commandValidator.validateCommand("create savings 12345678 5");
+		assertTrue(actual);
+	}
+
+	@Test
+	void create_checking_with_10_apr_is_valid() {
 		boolean actual = commandValidator.validateCommand("create checking 12345678 10");
+		assertTrue(actual);
+	}
+
+	@Test
+	void create_savings_with_10_apr_is_valid() {
+		boolean actual = commandValidator.validateCommand("create savings 12345678 10");
 		assertTrue(actual);
 	}
 
@@ -287,6 +317,48 @@ public class CommandValidatorTest {
 	void deposit_into_nonexistent_account_is_invalid() {
 		boolean actual = commandValidator.validateCommand("deposit 23456789 450");
 		assertFalse(actual);
+	}
+
+	@Test
+	void deposit_0_into_checking_account_is_valid() {
+		newBank.addAccount(testChecking);
+		boolean actual = commandValidator.validateCommand("deposit 12345678 0");
+		assertTrue(actual);
+	}
+
+	@Test
+	void deposit_1000_into_checking_is_valid() {
+		newBank.addAccount(testChecking);
+		boolean actual = commandValidator.validateCommand("deposit 12345678 1000");
+		assertTrue(actual);
+	}
+
+	@Test
+	void deposit_between_0_and_1000_into_checking_is_valid() {
+		newBank.addAccount(testChecking);
+		boolean actual = commandValidator.validateCommand("deposit 12345678 100");
+		assertTrue(actual);
+	}
+
+	@Test
+	void deposit_0_into_savings_account_is_valid() {
+		newBank.addAccount(testSavings);
+		boolean actual = commandValidator.validateCommand("deposit 23456789 0");
+		assertTrue(actual);
+	}
+
+	@Test
+	void deposit_2500_into_savings_is_valid() {
+		newBank.addAccount(testSavings);
+		boolean actual = commandValidator.validateCommand("deposit 23456789 2500");
+		assertTrue(actual);
+	}
+
+	@Test
+	void deposit_between_0_and_2500_into_savings_is_valid() {
+		newBank.addAccount(testSavings);
+		boolean actual = commandValidator.validateCommand("deposit 23456789 1000");
+		assertTrue(actual);
 	}
 
 	///////////////////////////////////////////////////////////////////
@@ -419,6 +491,48 @@ public class CommandValidatorTest {
 	void withdraw_from_empty_bank_is_invalid() {
 		boolean actual = commandValidator.validateCommand("withdraw 12345678 100");
 		assertFalse(actual);
+	}
+
+	@Test
+	void withdraw_0_from_checking_is_valid() {
+		newBank.addAccount(testChecking);
+		boolean actual = commandValidator.validateCommand("withdraw 12345678 0");
+		assertTrue(actual);
+	}
+
+	@Test
+	void withdraw_400_from_checking_is_valid() {
+		newBank.addAccount(testChecking);
+		boolean actual = commandValidator.validateCommand("withdraw 12345678 400");
+		assertTrue(actual);
+	}
+
+	@Test
+	void withdraw_amount_between_0_and_400_from_checking_is_valid() {
+		newBank.addAccount(testChecking);
+		boolean actual = commandValidator.validateCommand("withdraw 12345678 200");
+		assertTrue(actual);
+	}
+
+	@Test
+	void withdraw_0_from_savings_is_valid() {
+		newBank.addAccount(testSavings);
+		boolean actual = commandValidator.validateCommand("withdraw 23456789 0");
+		assertTrue(actual);
+	}
+
+	@Test
+	void withdraw_1000_from_savings_is_valid() {
+		newBank.addAccount(testSavings);
+		boolean actual = commandValidator.validateCommand("withdraw 23456789 1000");
+		assertTrue(actual);
+	}
+
+	@Test
+	void withdraw_0_and_1000_from_savings_is_valid() {
+		newBank.addAccount(testSavings);
+		boolean actual = commandValidator.validateCommand("withdraw 23456789 500");
+		assertTrue(actual);
 	}
 
 	///////////////////////////////////////////////////////////////////
