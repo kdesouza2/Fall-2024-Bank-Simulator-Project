@@ -13,4 +13,5 @@ This project is a **Java-based banking system** developed as part of **SE 201 (F
 ## **Technologies Used**  
 - **Java** (Core application logic)  
 - **JUnit** (Unit testing)  
-- **Git** (Version control)  
+- **Git** (Version control)
+- **IntelliJ Idea** (IDE) 
